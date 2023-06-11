@@ -43,21 +43,6 @@
 		plusSlides(-1);
 	});
 
-	function reintentarCarga(imagen) {
-		var maxIntentos = 3;
-		var intentos = imagen.dataset.intentos || 0;
-		
-		if (intentos < maxIntentos) {
-		  imagen.dataset.intentos = parseInt(intentos) + 1;
-		  imagen.src = imagen.src; // Intentar cargar la imagen nuevamente
-		} else {
-		  // Mostrar un mensaje de error en lugar de la imagen
-		  imagen.style.display = 'none'; // Ocultar la imagen
-		  var mensajeError = document.createElement('p');
-		  mensajeError.textContent = 'No se pudo cargar la imagen';
-		  imagen.parentNode.appendChild(mensajeError);
-		}
-	  }	  
 
 	var $window = $(window),
 		$body = $('body'),
