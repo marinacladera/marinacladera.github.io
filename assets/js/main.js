@@ -6,6 +6,59 @@
 
 (function($) {
 
+	var slideIndex = 0;
+	var $slides = $('.mySlides');
+
+	// Función para mostrar la diapositiva actual
+	function showSlide(index) {
+		// Oculta todas las diapositivas
+		$slides.hide();
+		// Muestra la diapositiva correspondiente al índice
+		$slides.eq(index).show();
+	}
+
+	// Muestra la primera diapositiva al cargar la página
+	showSlide(slideIndex);
+
+	// Función para avanzar o retroceder la diapositiva
+	function plusSlides(n) {
+		slideIndex += n;
+		// Verifica los límites del índice de la diapositiva
+		if (slideIndex >= $slides.length) {
+		slideIndex = 0;
+		} else if (slideIndex < 0) {
+		slideIndex = $slides.length - 1;
+		}
+		// Muestra la diapositiva actualizada
+		showSlide(slideIndex);
+	}
+
+	// Evento para avanzar la diapositiva al hacer clic en la flecha siguiente
+	$('.next').on('click', function() {
+		plusSlides(1);
+	});
+
+	// Evento para retroceder la diapositiva al hacer clic en la flecha anterior
+	$('.prev').on('click', function() {
+		plusSlides(-1);
+	});
+
+	function reintentarCarga(imagen) {
+		var maxIntentos = 3;
+		var intentos = imagen.dataset.intentos || 0;
+		
+		if (intentos < maxIntentos) {
+		  imagen.dataset.intentos = parseInt(intentos) + 1;
+		  imagen.src = imagen.src; // Intentar cargar la imagen nuevamente
+		} else {
+		  // Mostrar un mensaje de error en lugar de la imagen
+		  imagen.style.display = 'none'; // Ocultar la imagen
+		  var mensajeError = document.createElement('p');
+		  mensajeError.textContent = 'No se pudo cargar la imagen';
+		  imagen.parentNode.appendChild(mensajeError);
+		}
+	  }	  
+
 	var $window = $(window),
 		$body = $('body'),
 		$wrapper = $('#wrapper'),
