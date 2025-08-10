@@ -2681,3 +2681,7 @@ button.outline:hover {
 
 /* Opcional: hover consistente */
 .tech-btn:hover { background: #d0d0d0; }
+
+#lang-switch {
+  cursor: pointer;
+}

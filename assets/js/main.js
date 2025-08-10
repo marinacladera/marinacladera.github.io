@@ -281,35 +281,10 @@
   applyFilter('all');
 })();
 
-// ===== Proyecto interno: toggle de ficha técnica (mismo funcionamiento + estado visual del botón) =====
-(function() {
-  var toggleBtn = document.querySelector('[data-toggle="tech"]');
-  var sheet = document.getElementById('tech');
-  if (!toggleBtn || !sheet) return;
 
-  sheet.classList.remove('is-open');
-
-  toggleBtn.addEventListener('click', function() {
-    var opening = !sheet.classList.contains('is-open');
-    sheet.classList.toggle('is-open');
-
-    // estado visual del botón (igual a filtros)
-    this.classList.toggle('is-active', opening);
-
-    // accesibilidad + copy
-    this.setAttribute('aria-expanded', opening ? 'true' : 'false');
-    this.textContent = opening ? 'Ocultar ficha técnica' : 'Ficha técnica';
-
-    if (opening) {
-      sheet.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  });
-})();
-
-// ===== Volver a proyectos al hacer clic fuera del contenido =====
-// Sólo activar "click fuera = volver" en páginas internas (/pages/)
+// ===== Volver a proyectos al hacer clic fuera del contenido (solo en /pages/) =====
 (function () {
-  // Si la ruta no contiene /pages/ (p.ej. estás en index), no hacemos nada
+  // Si no es una página interna, no hacemos nada
   if (!/\/pages\//.test(window.location.pathname)) return;
 
   var mainArticle = document.querySelector('#work');
@@ -319,15 +294,118 @@
     // Si el clic fue dentro del contenido principal, salimos
     if (mainArticle.contains(e.target)) return;
 
-    // Dejá funcionar nav, enlaces, botones y la ficha técnica
+    // Permitir nav, enlaces, botones y la ficha técnica
     if (e.target.closest('a, button, nav, .project-header, .tech-sheet')) return;
+
+    // Destino según idioma (en/es)
+    var isEnglish = /\/pages\/en\//.test(window.location.pathname);
+    var backUrl = isEnglish ? '../index-en.html#work' : '../index.html#work';
 
     // Clic "fuera": volver a Proyectos
     e.preventDefault();
     if (window.history.length > 1) {
       history.back();
     } else {
-      window.location.href = '../index.html#work';
+      window.location.href = backUrl;
     }
+  });
+})();
+
+// ==== Toggle "Ficha técnica" / "Project info" (ES/EN) ====
+document.addEventListener('DOMContentLoaded', function () {
+  var toggleBtn = document.querySelector('[data-toggle="tech"]');
+  var sheet = document.getElementById('tech');
+  if (!toggleBtn || !sheet) return;
+
+  // Asegura que arranque cerrada
+  sheet.classList.remove('is-open');
+
+  toggleBtn.addEventListener('click', function () {
+    var opening = !sheet.classList.contains('is-open');
+    sheet.classList.toggle('is-open');
+
+    // Estado visual del botón (mismo look que filtros)
+    this.classList.toggle('is-active', opening);
+
+    // Labels: usa data-* si están; si no, fallback ES
+    var openLabel  = this.getAttribute('data-open-label')  || 'Ocultar ficha técnica';
+    var closeLabel = this.getAttribute('data-close-label') || 'Ficha técnica';
+
+    this.setAttribute('aria-expanded', opening ? 'true' : 'false');
+    this.textContent = opening ? openLabel : closeLabel;
+
+    if (opening) {
+      sheet.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// ==== Language switch (mantiene la sección actual) ====
+(function () {
+  function currentSectionHash() {
+    // Si ya hay hash (#work, #curriculum, …) úsalo
+    if (location.hash) return location.hash;
+
+    // Si no hay hash, inferir la sección visible (solo index pages)
+    var panels = document.querySelectorAll('article.panel[id]');
+    if (!panels.length) return '#home';
+    var mid = window.innerHeight / 2;
+    var best = null, bestOverlap = -1;
+
+    panels.forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      var overlap = Math.max(0, Math.min(r.bottom, window.innerHeight) - Math.max(r.top, 0));
+      // usa la que más “pisa” la ventana
+      if (overlap > bestOverlap) { bestOverlap = overlap; best = el; }
+    });
+
+    return best ? ('#' + best.id) : '#home';
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var link = document.getElementById('lang-switch');
+    if (!link) return;
+
+    var span = link.querySelector('span') || document.createElement('span');
+    if (!link.contains(span)) link.appendChild(span);
+
+    var path = window.location.pathname;
+    var file = path.split('/').pop();
+
+    var isIndexES  = /\/index\.html$/.test(path);
+    var isIndexEN  = /\/index-en\.html$/.test(path);
+    var isProjectEN = /\/pages\/en\//.test(path);
+    var isProjectES = /\/pages\//.test(path) && !isProjectEN;
+
+    // Etiqueta del botón según contexto
+    if (isIndexEN || isProjectEN) span.textContent = 'Spanish';
+    else span.textContent = 'English';
+
+    // Para proyectos, href estático; para index, lo calculamos al hacer clic
+    if (isProjectEN) {
+      link.href = '../' + file;           // EN -> ES (misma página)
+    } else if (isProjectES) {
+      link.href = 'en/' + file;           // ES -> EN (misma página)
+    } else {
+      // Index: resolvemos hash dinámicamente al hacer clic
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        var hash = currentSectionHash();
+        var target = isIndexEN ? ('index.html' + hash) : ('index-en.html' + hash);
+        window.location.href = target;
+      });
+    }
+
+    // Si querés que también funcione con teclado (Enter/Space) sin seguir hrefs por defecto:
+    link.addEventListener('keydown', function (e) {
+      if (isIndexEN || isIndexES) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          var hash = currentSectionHash();
+          var target = isIndexEN ? ('index.html' + hash) : ('index-en.html' + hash);
+          window.location.href = target;
+        }
+      }
+    });
   });
 })();
