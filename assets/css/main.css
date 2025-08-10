@@ -2447,3 +2447,237 @@ input, select, textarea {
 			}
 
 		}
+
+/* ====== Proyectos (mosaico + hover tipo Miriam) ====== */
+.projects-filters {
+  display: flex; gap: .5rem; margin: 0 0 1rem; flex-wrap: wrap;
+}
+.projects-filters .filter-btn {
+  background: #d0d0d0;; border: 0; padding: .45rem .9rem; cursor: pointer;
+  font-family: 'Source Sans Pro', sans-serif; font-size: .85em; border-radius: 999px;
+}
+.projects-filters .filter-btn.is-active { background: #222; color: #fff; }
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 12px;
+}
+/* 3 columnas en desktop, 2 en tablet, 1 en móvil */
+@media (min-width: 981px) {
+  .projects-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 980px) and (min-width: 737px) {
+  .projects-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 736px) {
+  .projects-grid { grid-template-columns: 1fr; }
+}
+
+/* === Card base === */
+.project-card {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 8px;
+  isolation: isolate;
+}
+
+/* Imagen (queda bajo todo) */
+.project-card img {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.02);
+  filter: grayscale(100%) brightness(1);
+  transition: transform .6s ease, filter .6s ease;
+}
+
+/* Overlay blanco que “blanquea” toda la tarjeta en hover */
+.project-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.95); /* subí/bajá este valor si querés más/menos blanco */
+  opacity: 0;
+  transition: opacity .6s ease;
+  z-index: 1; /* encima de la imagen, debajo del texto */
+}
+.project-card:hover::after,
+.project-card:focus::after {
+  opacity: 1;
+}
+
+/* === Bloque de texto === */
+.project-card .project-info {
+  position: absolute;
+  inset: 0; /* ocupa toda la tarjeta */
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* centra horizontal */
+  justify-content: center; /* centra vertical */
+  text-align: center;
+  padding: 1rem;
+  z-index: 2;
+  opacity: 0;
+  background: none;
+  transition: opacity .45s ease, background .3s ease;
+}
+.project-card:hover .project-info,
+.project-card:focus .project-info {
+  opacity: 1;
+  /* degradado blanco para reforzar lectura del texto */
+  background: none
+}
+
+/* Título baja desde arriba */
+.project-card .project-info h3 {
+  margin: 0;
+  font-size: 1em;
+  color: #000;
+  transform: translateY(-110%);
+  opacity: 0;
+  transition: transform .5s cubic-bezier(.2,.8,.2,1), opacity .5s ease, color .3s ease;
+  will-change: transform, opacity;
+}
+.project-card:hover .project-info h3,
+.project-card:focus .project-info h3 {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Categoría sube desde abajo (+ guion en línea propia) */
+.project-card .project-info span {
+  display: block;
+  margin-top: .15em;
+  font-size: .8em;
+  color: #000;
+  transform: translateY(110%);
+  opacity: 0;
+  transition: transform .5s cubic-bezier(.2,.8,.2,1), opacity .5s ease, color .3s ease;
+  transition-delay: .06s; /* leve desfase respecto al h3 */
+  will-change: transform, opacity;
+}
+.project-card .project-info span::before {
+  content: "";
+  display: block;
+  width: 40px;                 /* largo de la línea */
+  height: 1px;                 /* grosor de la línea */
+  background-color: currentColor; /* usa el color del texto */
+  margin: 0.3em auto;           /* espacio arriba/abajo y centrado */
+}
+.project-card:hover .project-info span,
+.project-card:focus .project-info span {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Efecto extra en imagen (no se nota mucho por el overlay, pero lo dejamos) */
+.project-card:hover img,
+.project-card:focus img {
+  transform: scale(1.08);
+  filter: grayscale(0%) brightness(1.35);
+}
+
+/* Accesibilidad */
+.project-card:focus {
+  outline: 2px solid #111;
+  outline-offset: 2px;
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .project-card img,
+  .project-card::after,
+  .project-card .project-info,
+  .project-card .project-info h3,
+  .project-card .project-info span {
+    transition: none;
+  }
+}
+
+/* ===== Proyecto interno: galería vertical + ficha técnica plegable ===== */
+.project-header {
+  display: flex;
+  justify-content: flex-start;
+  margin: 0 0 1rem;
+  gap: .5rem;
+}
+
+/* Botón outline para diferenciarlo del primario oscuro que ya usás */
+.button.outline,
+button.outline {
+  background: transparent;
+  color: #222;
+  border: 1px solid #222;
+}
+.button.outline:hover,
+button.outline:hover {
+  background: #222;
+  color: #fff;
+}
+
+/* Galería: imágenes apiladas, separación y ancho fluido */
+.gallery-images {
+  display: grid;
+  gap: 1rem;
+}
+.gallery-images figure { margin: 0; }
+.gallery-images img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Ficha técnica: colapsable con transición suave */
+.tech-sheet {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .4s ease;
+  background: #f7f7f7;
+  border: 1px solid #e5e5e5;
+  padding: 0 1rem;           /* el padding vertical se activa solo al abrir */
+  margin: 0 0 1rem;
+}
+.tech-sheet.is-open {
+  /* valor grande para que siempre entre el contenido */
+  max-height: 1000px;
+  padding: 1rem;
+}
+
+/* Tipografía un poco más pequeña en ficha técnica para contraste */
+.tech-sheet p { font-size: .85em; line-height: 1.7; }
+
+/* Botón Ficha técnica: cerrado = estilo activo */
+.tech-btn {
+  background: #222;          /* como activo */
+  color: #fff;
+  border: 0;
+  padding: .45rem .9rem;
+  cursor: pointer;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: .85em;
+  border-radius: 999px;
+  transition: background .25s ease, color .25s ease;
+}
+
+/* Abierto = estilo normal (claro) */
+.tech-btn.is-active {
+  background: #d0d0d0;
+  color: #000;
+}
+
+/* Hover opcional */
+.tech-btn:hover {
+  background: #000; 
+  color: #fff;
+}
+.tech-btn.is-active:hover {
+  background: #d0d0d0;
+}
+
+/* Opcional: hover consistente */
+.tech-btn:hover { background: #d0d0d0; }

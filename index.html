@@ -52,56 +52,91 @@
 								<header>
 									<h2>Proyectos</h2>
 								</header>
-									<button class="accordion">
-										<!-- <span class="icon solid fa-angle-right"> -->
-										<span>
-											•&nbsp;&nbsp;&nbsp;BIM
-										</span>
-									</button>
-									<div class="list-display">
-										<div class="row">
-											<div class="col-4 col-6-medium col-12-small">
-												<a href="pages/interiorismo_cocina_y_banio.html#work" class="image fit">
-													<img src="images/portadas/interiorismo_cocina_y_banio.webp" loading="lazy" alt="proyecto interiorismo">
-												</a>
-											</div>
-											<div class="col-4 col-6-medium col-12-small">
-												<a href="pages/locales_comerciales_y_oficinas.html#work" class="image fit">
-													<img src="images/portadas/locales_comerciales.webp" loading="lazy" alt="locales comerciales">
-												</a>
-											</div>
-											<div class="col-4 col-6-medium col-12-small">
-												<a href="pages/modelado_est_int.html" class="image fit">
-													<img src="images/portadas/modelado_est_inst_2.webp" loading="lazy" alt="modelado">
-												</a>
-											</div>
-										</div>
-									</div>
+									<!-- Filtros opcionales; si no los querés, podés borrar este bloque -->
+							<div class="projects-filters" aria-label="Filtros de proyectos">
+								<button class="filter-btn is-active" data-filter="all">Todos</button>
+								<button class="filter-btn" data-filter="interiorismo">Interiorismo</button>
+								<button class="filter-btn" data-filter="bim">BIM</button>
+								<button class="filter-btn" data-filter="arq">ARQ</button>
+							</div>
 
-									<button class="accordion">
-										<span >
-											•&nbsp;&nbsp;&nbsp;ARQ + DESIGN
-										</span>
-									</button>
-									<div class="list-display">
-										<div class="row">
-											<div class="col-4 col-6-medium col-12-small">
-												<a href="pages/ciudades_en_transicion.html#work" class="image fit">
-													<img src="images/portadas/ciudades_en_transicion.webp" loading="lazy" alt="diseño interior vivienda">
-												</a>
-											</div>
-											<div class="col-4 col-6-medium col-12-small">
-												<a href="pages/disenio_interior_viviendas.html#work" class="image fit">
-													<img src="images/portadas/disenio_interior_vivienda.webp" loading="lazy" alt="diseño interior vivienda">
-												</a>
-											</div>
-											<div class="col-4 col-6-medium col-12-small">
-												<a href="pages/sinergia_urbana.html#work" class="image fit">
-													<img src="images/portadas/sinergia_urbana_portada.webp" loading="lazy" alt="proyecto sinergia urbana">
-												</a>
-											</div>
-										</div>
-									</div>
+							<!-- Mosaico de proyectos -->
+							<div class="projects-grid">
+								<!-- INTERIORISMO -->
+								<a class="project-card" href="pages/interiorismo1.html" data-category="interiorismo">
+								<img src="images/portadas/interiorismo1.png" loading="lazy" alt="Interiorismo" />
+								<div class="project-info">
+									<h3>COCINA</h3>
+									<span>INTERIORISMO</span>
+								</div>
+								</a>
+
+								<a class="project-card" href="pages/interiorismo2.html" data-category="interiorismo">
+								<img src="images/portadas/interiorismo2.jpg" loading="lazy" alt="Interiorismo" />
+								<div class="project-info">
+									<h3>COCINA</h3>
+									<span>INTERIORISMO</span>
+								</div>
+								</a>
+
+								<a class="project-card" href="pages/interiorismo3.html" data-category="interiorismo">
+								<img src="images/portadas/interiorismo3.png" loading="lazy" alt="Interiorismo" />
+								<div class="project-info">
+									<h3>COCINA</h3>
+									<span>INTERIORISMO</span>
+								</div>
+								</a>
+
+								<!-- BIM -->
+								<a class="project-card" href="pages/locales_comerciales_y_oficinas.html#work" data-category="bim">
+								<img src="images/portadas/locales_comerciales_y_oficinas.png" loading="lazy" alt="Locales comerciales y oficinas" />
+								<div class="project-info">
+									<h3>LOCALES COMERCIALES Y OFICINAS</h3>
+									<span>BIM</span>
+								</div>
+								</a>
+
+								<a class="project-card" href="pages/estructura_local_comercial.html" data-category="bim"> 
+								<img src="images/portadas/estructuras_e_instalaciones_local_comercial.png" loading="lazy" alt="Modelado estructura e instalaciones" />
+								<div class="project-info">
+									<h3>ESTRUCTURAS E INSTALACIONES LOCAL COMERCIAL</h3>
+									<span>BIM</span>
+								</div>
+								</a>
+
+								<a class="project-card" href="pages/vivienda_unifamiliar2.html" data-category="bim"> 
+								<img src="images/portadas/vivienda_unifamiliar.png" loading="lazy" alt="Vivienda unifamiliar" />
+								<div class="project-info">
+									<h3>VIVIENDA UNIFAMILIAR</h3>
+									<span>BIM</span>
+								</div>
+								</a>
+
+								<!-- ARQ -->
+								<a class="project-card" href="pages/condensador_socioambiental.html" data-category="arq">
+								<img src="images/portadas/condensador_socioambiental.png" loading="lazy" alt="Condensador socioambiental" />
+								<div class="project-info">
+									<h3>CONDENSADOR SOCIOAMBIENTAL</h3>
+									<span>ARQ</span>
+								</div>
+								</a>
+
+								<a class="project-card" href="pages/industria_codigo_abierto.html" data-category="arq">
+								<img src="images/portadas/industria_codigo_abierto.png" loading="lazy" alt="Industria codigo abierto" />
+								<div class="project-info">
+									<h3>INDUSTRIA DE CODIGO ABIERTO</h3>
+									<span>ARQ</span>
+								</div>
+								</a>
+
+								<a class="project-card" href="pages/vivienda_unifamiliar.html" data-category="interiorismo">
+								<img src="images/portadas/interiorismo_vivienda_unifamiliar.png" loading="lazy" alt="Vivienda unifamiliar" />
+								<div class="project-info">
+									<h3>VIVIENDA UNIFAMILIAR</h3>
+									<span>INTERIORISMO</span>
+								</div>
+								</a>
+							</div>
 							</article>
 
 						<!--Curriculum-->
@@ -119,7 +154,6 @@
 											<li>
 												<strong>2016/2023 | Educación Universitaria Arquitectura</strong><br> 
 												UNC Córdoba, Argentina.
-												Promedio: 8.85/10
 											</li>
 											<li>
 												<strong>2019 | Intercambio Universitario Arquitectura</strong><br> 
@@ -214,26 +248,6 @@
 											</li>
 										</ul>
 									</div>
-<!-- 
-									<button class="accordion">
-										<span class="icon solid fa-medal">
-											&nbsp;&nbsp;&nbsp;Distinciones y premios
-										</span>
-									</button>
-									<div class="list-display">
-										<ul class="curriculum-list">
-											<li>
-												<strong>2020 | Mención especial concurso interno de ideas y proyecto Suquía urbano</strong><br>
-												Paisaje fluvial e infraestructuras del espacio público.
-												Cátedra de Arquitectura Paisajista "A". UNC. Córdoba, Argentina.
-											</li>
-											<li>
-												<strong>2019 | Mención especial concurso Casa Violeta Parra</strong><br>
-												Refugio transitorio para mujeres víctimas de violencia de género.
-												Proyecto Habitar. Buenos Aires, Argentina.
-											</li>
-										</ul>
-									</div> -->
 
 									<button class="accordion">
 										<span class="icon solid fa-save">
@@ -247,16 +261,7 @@
 											<li><strong>Colaboración y Gestión Remota:</strong> Slack, Microsoft Teams, Zoom, Bluebeam, A360.</li>
 											<li><strong>Renderizado y Visualización:</strong> Enscape.</li>
 											<li><strong>Microsoft Office Suite</strong></li>
-											<!-- <li>AutoCAD</li>
-											<li>Bluebeam</li>
-											<li>Enscape</li>
-											<li>Illustrator</li>
-											<li>InDesign</li>
-											<li>Microsoft Office</li>
-											<li>Navisworks</li>
-											<li>Photoshop</li>
-											<li>Revit</li>
-											<li>SketchUp</li> -->
+											<li><strong>Nube de puntos:</strong> ReCap, MeshLab.</li>
 										</ul>
 									</div>
 								</header>

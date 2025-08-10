@@ -254,3 +254,80 @@
 		}
 
 })(jQuery);
+
+// ====== Filtros del mosaico ======
+(function() {
+  var buttons = document.querySelectorAll('.filter-btn');
+  var cards = document.querySelectorAll('.project-card');
+  if (!buttons.length || !cards.length) return;
+
+  function applyFilter(filter) {
+    cards.forEach(function(card){
+      var cat = card.getAttribute('data-category');
+      var show = (filter === 'all') || (cat === filter);
+      card.style.display = show ? '' : 'none';
+    });
+  }
+
+  buttons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      buttons.forEach(function(b){ b.classList.remove('is-active'); });
+      this.classList.add('is-active');
+      applyFilter(this.getAttribute('data-filter'));
+    });
+  });
+
+  // filtro inicial
+  applyFilter('all');
+})();
+
+// ===== Proyecto interno: toggle de ficha técnica (mismo funcionamiento + estado visual del botón) =====
+(function() {
+  var toggleBtn = document.querySelector('[data-toggle="tech"]');
+  var sheet = document.getElementById('tech');
+  if (!toggleBtn || !sheet) return;
+
+  sheet.classList.remove('is-open');
+
+  toggleBtn.addEventListener('click', function() {
+    var opening = !sheet.classList.contains('is-open');
+    sheet.classList.toggle('is-open');
+
+    // estado visual del botón (igual a filtros)
+    this.classList.toggle('is-active', opening);
+
+    // accesibilidad + copy
+    this.setAttribute('aria-expanded', opening ? 'true' : 'false');
+    this.textContent = opening ? 'Ocultar ficha técnica' : 'Ficha técnica';
+
+    if (opening) {
+      sheet.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+})();
+
+// ===== Volver a proyectos al hacer clic fuera del contenido =====
+// Sólo activar "click fuera = volver" en páginas internas (/pages/)
+(function () {
+  // Si la ruta no contiene /pages/ (p.ej. estás en index), no hacemos nada
+  if (!/\/pages\//.test(window.location.pathname)) return;
+
+  var mainArticle = document.querySelector('#work');
+  if (!mainArticle) return;
+
+  document.addEventListener('click', function (e) {
+    // Si el clic fue dentro del contenido principal, salimos
+    if (mainArticle.contains(e.target)) return;
+
+    // Dejá funcionar nav, enlaces, botones y la ficha técnica
+    if (e.target.closest('a, button, nav, .project-header, .tech-sheet')) return;
+
+    // Clic "fuera": volver a Proyectos
+    e.preventDefault();
+    if (window.history.length > 1) {
+      history.back();
+    } else {
+      window.location.href = '../index.html#work';
+    }
+  });
+})();
